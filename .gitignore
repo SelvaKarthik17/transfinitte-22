@@ -9,4 +9,3 @@ frontend/node_modules/*
 backend/engine/__pycache__/*
 dump.txt
 cached_people/
-
