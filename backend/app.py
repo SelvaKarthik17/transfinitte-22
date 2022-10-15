@@ -1,10 +1,21 @@
-from flask import Flask
-
+from flask import Flask, request
+from engine.engine import engine_of_program
 app = Flask(__name__)
 
-@app.route('/')
+@app.route('/', methods=['GET'])
 def hello():
     return 'Hello, World!'
+
+@app.route('/', methods=['POST'])
+def generateFamilyTree():
+    name = request.form['name']
+    age = request.form['age']
+    state = request.form['state']
+    voter_id = request.form['voter_id']
+    gender = request.form['gender']
+    res = engine_of_program(name, age, state, voter_id, gender)
+    return res
+    
 
 if __name__ == '__main__':
     app.run()

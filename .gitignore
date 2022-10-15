@@ -4,3 +4,4 @@ venv/
 __pycache__
 temp/
 key-translate.json
+frontend/node_modules/*
