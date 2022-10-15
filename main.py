@@ -1,6 +1,7 @@
 from indgov_search import get_ind_gov_details
 from utils import get_electoral_roll_pdf_url, get_pdf_from_url
 import dotenv
+from text_recognition import get_text_from_pdf
 
 dotenv.load_dotenv()
 
@@ -50,8 +51,12 @@ data = get_ind_gov_details()
 
 print(data)
 
+PDF_PATH = 'temp/test.pdf'
+
 pdf_url = get_electoral_roll_pdf_url(data)
 pdf = get_pdf_from_url(pdf_url)
 print(pdf_url)
-with open('test.pdf', 'wb') as f:
+with open(PDF_PATH, 'wb') as f:
     f.write(pdf)
+get_text_from_pdf(PDF_PATH)
+

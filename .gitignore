@@ -2,3 +2,4 @@ backend/venv/*
 key.json
 venv/
 __pycache__
+temp/

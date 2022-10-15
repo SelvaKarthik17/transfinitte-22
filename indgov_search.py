@@ -35,11 +35,11 @@ def get_ind_gov_details():
 			'https://electoralsearch.in/Home/GetCaptcha?image=true&id=Sat%20Oct%2015%202022%2000:29:23%20GMT+0530%20(India%20Standard%20Time)', cookies=cookies, headers=headers)
 
 
-		file = open("captcha.png", "wb")
+		file = open("temp/captcha.png", "wb")
 		file.write(response.content)
 		file.close()
 
-		captcha = solve_captcha('captcha.png').strip()
+		captcha = solve_captcha('temp/captcha.png').strip()
 
 		#########################
 
