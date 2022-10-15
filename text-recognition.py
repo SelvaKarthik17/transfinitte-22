@@ -3,6 +3,7 @@ from google.cloud import vision
 from google.cloud.vision_v1 import types
 import pandas as pd
 import time
+import numpy as np
 
 from pdf2image import convert_from_path
 import cv2
@@ -16,7 +17,7 @@ os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = r'key.json'
 
 client = vision.ImageAnnotatorClient()
 
-pages = convert_from_path('pdfName.pdf', 500)
+pages = convert_from_path('pdfName.pdf', 500, poppler_path=r"C:\Program Files (x86)\poppler-0.68.0\bin")
 
 i=0
 j=0
@@ -31,9 +32,10 @@ for page in pages:
     if(i == totalpages):
         break
 
-    page.save('page'+str(i)+'.jpg', 'JPEG')
+    # page.save('page'+str(i)+'.jpg', 'JPEG')
+    image = cv2.cvtColor(np.array(page), cv2.COLOR_RGB2BGR)
 
-    image = cv2.imread('page'+str(i)+'.jpg')
+    # image = cv2.imread('page'+str(i)+'.jpg')
     original = image.copy()
 
     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
@@ -45,6 +47,11 @@ for page in pages:
 
     image_number = 0
     min_area = 8000
+
+    def convertArraytoBytes(array):
+        success, encoded_image = cv2.imencode('.png', array)
+        return encoded_image.tobytes()
+
     for c in cnts:
         area = cv2.contourArea(c)
         if area > min_area:
@@ -56,50 +63,24 @@ for page in pages:
             if(h < 500):
 
                 row1 = original[y:y+h, x:x+1225]
-                cv2.imwrite('row_a_'+str(j)+'.png', row1)
-
                 row2 = original[y:y+h, x+1250:x+2475]
-                cv2.imwrite('row_b_'+str(j)+'.png', row2)
-
                 row3 = original[y:y+h, x+2500:x+3750]
-                cv2.imwrite('row_c_'+str(j)+'.png', row3)
-
-                img_list.append('row_a_'+str(j)+'.png')
-                img_list.append('row_b_'+str(j)+'.png')
-                img_list.append('row_c_'+str(j)+'.png')
+                for i in range(3):
+                    img_list.append(convertArraytoBytes(array=eval('row'+str(i+1))))
 
             else:
                 row1 = original[y:y+500, x:x+1225]
-                cv2.imwrite('row_a_'+str(j)+'.png', row1)
-
                 row2 = original[y:y+500, x+1250:x+2475]
-                cv2.imwrite('row_b_'+str(j)+'.png', row2)
-
                 row3 = original[y:y+500, x+2500:x+3750]
-                cv2.imwrite('row_c_'+str(j)+'.png', row3)
-
                 row4 = original[y+500:y+h, x:x+1225]
-                cv2.imwrite('row_d_'+str(j)+'.png', row4)
-
                 row5 = original[y+500:y+h, x+1250:x+2475]
-                cv2.imwrite('row_e_'+str(j)+'.png', row5)
-
                 row6 = original[y+500:y+h, x+2500:x+3750]
-                cv2.imwrite('row_f_'+str(j)+'.png', row6)  
 
-                img_list.append('row_a_'+str(j)+'.png')
-                img_list.append('row_b_'+str(j)+'.png')
-                img_list.append('row_c_'+str(j)+'.png')
-                img_list.append('row_d_'+str(j)+'.png')
-                img_list.append('row_e_'+str(j)+'.png')
-                img_list.append('row_f_'+str(j)+'.png')
+                for i in range(6):
+                    img_list.append(convertArraytoBytes(array=eval('row'+str(i+1))))
 
             
-            for image_path in img_list:
-
-                with io.open(image_path, 'rb') as image_file:
-                    content = image_file.read()
-
+            for content in img_list:
                 image = vision.Image(content=content)
 
                 response = client.text_detection(image=image)
