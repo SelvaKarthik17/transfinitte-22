@@ -13,7 +13,8 @@ def generateFamilyTree():
     state = request.form['state']
     voter_id = request.form['voter_id']
     gender = request.form['gender']
-    res = engine_of_program(name, age, state, voter_id, gender)
+    relation_name = request.form['relation_name']
+    res = engine_of_program(name, age, state, voter_id, gender, relation_name)
     return res
     
 
