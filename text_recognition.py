@@ -1,10 +1,16 @@
 import os, io
 from google.cloud import vision
 import pandas as pd
+import warnings
+warnings.filterwarnings("ignore")
 import numpy as np
 from pdf2image import convert_from_path
 import cv2
 import PyPDF2
+
+def convertArraytoBytes(array):
+    success, encoded_image = cv2.imencode('.png', array)
+    return encoded_image.tobytes()
 
 def get_text_from_pdf(pdf_path: str) -> str:
     doc = open(pdf_path, 'rb')
@@ -18,24 +24,36 @@ def get_text_from_pdf(pdf_path: str) -> str:
     else:
         pages = convert_from_path(pdf_path, 500)
 
-    i=0
+    page_no=0
     j=0
-
+    
+    console_file = open("dump.txt", "a")
     for page in pages:
 
-        i = i+1
+        page_no = page_no+1
 
-        if(i < 3):
+        if(page_no < 3):
             continue
         
-        if(i == totalpages):
+        if(page_no >= totalpages-1):
             break
+        # console_file.write('hello ' + str(i))
+        print(page_no)
 
         # page.save('page'+str(i)+'.jpg', 'JPEG')
         image = cv2.cvtColor(np.array(page), cv2.COLOR_RGB2BGR)
 
         # image = cv2.imread('page'+str(i)+'.jpg')
         original = image.copy()
+        headerImage = original[160:300,0:3000]
+        # save headerImage
+        headerImageBytes = convertArraytoBytes(headerImage)
+        headerRequestImage = vision.Image(content=headerImageBytes)
+        headerImageResponse = client.text_detection(image=headerRequestImage)
+        #split after :
+        headerText = headerImageResponse.text_annotations[0].description.split(":")[1]
+        headerText = headerText.lstrip()
+
 
         gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
         blurred = cv2.GaussianBlur(gray, (3, 3), 0)
@@ -47,9 +65,6 @@ def get_text_from_pdf(pdf_path: str) -> str:
         image_number = 0
         min_area = 8000
 
-        def convertArraytoBytes(array):
-            success, encoded_image = cv2.imencode('.png', array)
-            return encoded_image.tobytes()
 
         for c in cnts:
             area = cv2.contourArea(c)
@@ -87,6 +102,7 @@ def get_text_from_pdf(pdf_path: str) -> str:
 
                     texts = response.text_annotations
                     for text in texts:
+                        text.description = text.description + "\n" + "address: " + headerText
                         df = df.append(
                             dict(
                                 locale=text.locale,
@@ -96,9 +112,16 @@ def get_text_from_pdf(pdf_path: str) -> str:
                         )
 
                     out_file = open("temp/locale-out.txt", "a")
-                    out_file.write(df['description'][0])
-                    out_file.write("\n------------\n")
+                    try:
+                        out_file.write(df['description'][0])
+                        out_file.write("\n------------\n")
+                    except:
+                        pass
                     out_file.close()
 
                 j = j+1
-
+    console_file.close()
+if __name__ == "__main__":
+    import os
+    os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = r'key.json'
+    get_text_from_pdf("temp/test.pdf")
