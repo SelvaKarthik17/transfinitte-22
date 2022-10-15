@@ -1,3 +1,5 @@
+import re
+
 def get_structured_house_data(data: dict):
     with open('temp/english-out.txt', encoding="utf8") as f:
         lines = f.readlines()
@@ -45,7 +47,7 @@ def get_structured_house_data(data: dict):
                 temp["age"] = lines[i].split(" ")[1]
                 temp["gender"] = lines[i].split(" ")[3][:-1]
             elif lines[i].startswith("House"):
-                houseNumber = lines[i].split(" ")[2][:-1]
+                houseNumber = re.sub('[^A-Za-z0-9]+', '', lines[i].split(" ")[2][:-1]).upper()
     return d[str(hn)]
 
 # converting to below format

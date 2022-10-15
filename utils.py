@@ -1,5 +1,11 @@
 import requests
 
+import os
+
+def create_temp_folder():
+    if not os.path.exists("temp"):
+        os.makedirs("temp")
+    
 def get_electoral_roll_pdf_url(data):
     base_url = "https://www.elections.tn.gov.in/SSR2022_MR_05012022"
     part1 = "/dt" + data["dist_no"]
