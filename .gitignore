@@ -3,3 +3,4 @@ key.json
 venv/
 __pycache__
 temp/
+key-translate.json

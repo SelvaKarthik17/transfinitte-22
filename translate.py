@@ -1,9 +1,9 @@
 from google.cloud import translate
 import os
 
-os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = r'key.json'  
 
-def translate_text(text , project_id="favorable-order-365522"):
+def translate_text(text, project_id="favorable-order-365522"):
+    os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = r'key-translate.json'
     # print(len(text))
     client = translate.TranslationServiceClient()
     location = "global"
@@ -21,40 +21,38 @@ def translate_text(text , project_id="favorable-order-365522"):
 
     for translation in response.translations:
 
-        f = open("english-out.txt", "a")
+        f = open("temp/english-out.txt", "a")
 
         lines = translation.translated_text.split("\n")
-        non_empty_lines = [line for line in lines if line.strip() != ""]
 
         string_without_empty_lines = ""
 
-        for line in non_empty_lines:
+        for line in lines:
             string_without_empty_lines += line + "\n"
 
         f.write(string_without_empty_lines)
         f.close()
 
+def translate_locale_out():
+    tamil_text = ""
 
-tamil_text = ""
+    with open('temp/locale-out.txt', 'r') as file:
 
-with open('text-in.txt', 'r') as file:
-
-    line = file.readline()
-    cnt = 1
-    while line:
         line = file.readline()
-        tamil_text = tamil_text + line + "\n"
-        cnt += 1
+        cnt = 1
+        while line:
+            line = file.readline()
+            tamil_text = tamil_text + line
+            cnt += 1
 
 
-l = len(tamil_text)
+    l = len(tamil_text)
 
-while l > 0:
-    if l > 30000:
-        translate_text(tamil_text[:30000])
-        tamil_text = tamil_text[30000:]
-        l = len(tamil_text)
-    else:
-        translate_text(tamil_text)
-        l = 0
-
+    while l > 0:
+        if l > 30000:
+            translate_text(tamil_text[:30000])
+            tamil_text = tamil_text[30000:]
+            l = len(tamil_text)
+        else:
+            translate_text(tamil_text)
+            l = 0

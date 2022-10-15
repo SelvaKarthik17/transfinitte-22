@@ -2,8 +2,8 @@ from indgov_search import get_ind_gov_details
 from utils import get_electoral_roll_pdf_url, get_pdf_from_url
 import dotenv
 from text_recognition import get_text_from_pdf
+from translate import translate_locale_out
 
-dotenv.load_dotenv()
 
 # data = {
 #     "pc_name": "KALLAKURICHI",
@@ -47,6 +47,7 @@ dotenv.load_dotenv()
 #     "enc_epic_no": "rBLhcWpv18W6UX9sA9ZOlA=="
 # }
 
+dotenv.load_dotenv()
 data = get_ind_gov_details()
 
 print(data)
@@ -59,4 +60,4 @@ print(pdf_url)
 with open(PDF_PATH, 'wb') as f:
     f.write(pdf)
 get_text_from_pdf(PDF_PATH)
-
+translate_locale_out()
