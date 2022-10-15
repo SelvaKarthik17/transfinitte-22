@@ -41,9 +41,9 @@ def translate_locale_out():
         line = file.readline()
         cnt = 1
         while line:
-            line = file.readline()
             tamil_text = tamil_text + line
             cnt += 1
+            line = file.readline()  
 
 
     l = len(tamil_text)
