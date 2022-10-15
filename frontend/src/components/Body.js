@@ -1,8 +1,8 @@
 import React from "react";
-
+import Tree from "../pages/Tree";
 const Body = () => {
   return (
-    <div className='w-screen'>
+    <div className='w-full'>
       Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc viverra
       metus eget turpis rutrum, sit amet ullamcorper leo efficitur. Fusce
       efficitur sapien ac erat dignissim, quis rutrum ligula porta. In semper
@@ -41,6 +41,7 @@ const Body = () => {
       Duis metus nunc, tempus mollis urna vitae, mattis accumsan est. Nulla
       tempor dignissim commodo. Pellentesque hendrerit quam leo, nec ornare
       risus molestie et.
+      <Tree />
     </div>
   );
 };
