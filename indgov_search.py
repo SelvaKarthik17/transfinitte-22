@@ -2,7 +2,7 @@ import requests
 from captcha_solver import solve_captcha
 import requests
 
-def get_ind_gov_details():
+def get_ind_gov_details(user_data):
 	tries = 10
 
 	while tries > 0:
@@ -75,16 +75,13 @@ def get_ind_gov_details():
 			'txtCaptcha': captcha,
 			'search_type': 'details',
 			'reureureired': 'ca3ac2c8-4676-48eb-9129-4cdce3adf6ea',
-			'name': 'pradeep',
-			'rln_name': 'selvanayagam',
 			'page_no': 1,
-			'location': 'S22,,',
 			'results_per_page': 10,
 			'location_range': '20',
-			'age': 20,
 			'dob': None,
-			'gender': 'M',
 		}
+
+		json_data.update(user_data)
 
 		print(json_data)
 		print(cookies)

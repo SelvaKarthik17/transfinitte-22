@@ -1,9 +1,9 @@
+from T2D import convert_to_tree_format, get_structured_house_data
 from indgov_search import get_ind_gov_details
 from utils import get_electoral_roll_pdf_url, get_pdf_from_url
 import dotenv
 from text_recognition import get_text_from_pdf
 from translate import translate_locale_out
-
 
 # data = {
 #     "pc_name": "KALLAKURICHI",
@@ -48,16 +48,24 @@ from translate import translate_locale_out
 # }
 
 dotenv.load_dotenv()
-data = get_ind_gov_details()
-
+user_data = {
+			'name': 'divyanathan',
+			'rln_name': 'susai',
+			'location': 'S22,,',
+			'age': 78,
+			'gender': 'M',
+		}
+data = get_ind_gov_details(user_data)
 print(data)
-
 PDF_PATH = 'temp/test.pdf'
 
-pdf_url = get_electoral_roll_pdf_url(data)
-pdf = get_pdf_from_url(pdf_url)
-print(pdf_url)
-with open(PDF_PATH, 'wb') as f:
-    f.write(pdf)
-get_text_from_pdf(PDF_PATH)
-translate_locale_out()
+# pdf_url = get_electoral_roll_pdf_url(data)
+# pdf = get_pdf_from_url(pdf_url)
+# print(pdf_url)
+# with open(PDF_PATH, 'wb') as f:
+#     f.write(pdf)
+# get_text_from_pdf(PDF_PATH)
+# translate_locale_out()
+house_data = get_structured_house_data(data)
+tree_data = convert_to_tree_format(house_data)  
+print(tree_data)
