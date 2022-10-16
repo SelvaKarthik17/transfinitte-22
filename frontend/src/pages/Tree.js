@@ -2,21 +2,56 @@ import React, { Component, useEffect } from "react";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 import FamilyTree from "../components/Mytree";
+import usersData from "./example.json";
 
 export default function Tree(props){
 
     const [familyData, setFamilyData] = React.useState([]);
-    const temp = [{"id": 0, "name": "Nagaratnam", "pids": [], "gender": "female"}, {"id": 1, "name": "Sreedharan", "pids": [2], "gender": "male"}, {"id": 2, "name": "Maheshwari", "pids": [1], "gender": "female"}, {"id": 3, "name": "Sulaiman", "pids": [], "gender": "male", "fid": 4}, {"id": 4, "name": "Syed Alivi", "pids": [], "gender": "male"}, {"id": 5, "name": "Srinivasaragavan", "pids": [6], "gender": "male", "fid": 1, "mid": 2}, {"id": 6, "name": "Revathi", "pids": [5], "gender": "female"}, {"id": 7, "name": "Nandini", "pids": [], "gender": "female", "fid": 9}, {"id": 8, "name": "Arunkarthik", "pids": [], "gender": "male"}, {"id": 9, "name": "Ganesan", "pids": [], "gender": "male"}, {"id": 10, "name": "Saranyaphanu", "pids": [], "gender": "female"}, {"id": 11, "name": "Saravanan", "pids": [], "gender": "male", "fid": 12, "mid": 13}, {"id": 12, "name": "Pattappasamy", "pids": [13], "gender": "male"}, {"id": 13, "name": "Sumathi", "pids": [12], "gender": "female"}, {"id": 14, "name": "Bhupathiraj", "pids": [], "gender": "male", "fid": 12, "mid": 13}, {"id": 15, "name": "Kalachelvi", "pids": [], "gender": "female"}, {"id": 16, "name": "Gomati", "pids": [19], "gender": "female"}, {"id": 17, "name": "Soundaryabala", "pids": [], "gender": "female", "fid": 19, "mid": 16}, {"id": 18, "name": "Balasubramaniam", "pids": [], "gender": "male", "fid": 19, "mid": 16}, {"id": 19, "name": "Ramamurthy", "pids": [16], "gender": "male"}, {"id": 20, "name": "Kausalya", "pids": [], "gender": "female"}, {"id": 21, "name": "Sandhya", "pids": [], "gender": "female"}, {"id": 22, "name": "Ramya", "pids": [25], "gender": "female"}, {"id": 23, "name": "Arumugam", "pids": [], "gender": "male"}, {"id": 24, "name": "Muthukumar", "pids": [], "gender": "male"}, {"id": 25, "name": "Chandramouleswaran", "pids": [22], "gender": "male"}, {"id": 26, "name": "Satyakokila", "pids": [], "gender": "female"}, {"id": 27, "name": "Gandhi", "pids": [], "gender": "female"}, {"id": 28, "name": "Shanti", "pids": [], "gender": "female"}, {"id": 29, "name": "Saipreeta", "pids": [], "gender": "female"}]
+    const temp = [{"gender":"female","id":0,"name":"Lalita","pids":[3]},{"fid":3,"gender":"male","id":1,"mid":0,"name":"Akshay","pids":[]},{"fid":3,"gender":"male","id":2,"mid":0,"name":"Ashwath Niranja","pids":[]},{"gender":"male","id":3,"name":"Anantharaman","pids":[0]}]
+    
+    const downloadFile = ({ data, fileName, fileType }) => {
+      const blob = new Blob([data], { type: fileType });
+    
+      const a = document.createElement("a");
+      a.download = fileName;
+      a.href = window.URL.createObjectURL(blob);
+      const clickEvt = new MouseEvent("click", {
+        view: window,
+        bubbles: true,
+        cancelable: true,
+      });
+      a.dispatchEvent(clickEvt);
+      a.remove();
+    };
+
+    const exportToJson = e => {
+      e.preventDefault();
+      downloadFile({
+        data: JSON.stringify(familyData),
+        fileName: "answer.json",
+        fileType: "text/json",
+      });
+    };
+    
+
     useEffect(() => {
         setFamilyData(props.familyData);
         console.log(familyData);
     }, [props.familyData]);
 
-    return (  
-      <div className=' w-3/4 border border-1 my-4 mx-auto'>
+    return ( 
+      <>
+      <div className="actionBtns">
+          <button type="button" className='mt-5 py-2 px-4 rounded-md bg-green-500 text-gray-50 hover:bg-green-700' onClick={exportToJson}>
+            Export to JSON
+          </button>
+        </div>
+        <div className=' w-3/4 border border-1 my-4 mx-auto'>
         <FamilyTree
-          nodes={temp}
+          nodes={familyData}
         />
       </div>
+      </> 
+      
     );
 }

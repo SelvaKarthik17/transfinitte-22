@@ -22,6 +22,18 @@ export default class Chart extends Component {
                     pdf: null,
         
                 }
+            },
+            menu: {
+                pdf: { text: "Export PDF" },
+                png: { text: "Export PNG" },
+                svg: { text: "Export SVG" },
+                csv: { text: "Export CSV" },
+                json: { text: "Export JSON" }
+            },
+            nodeMenu: {
+                pdf: { text: "Export PDF" },
+                png: { text: "Export PNG" },
+                svg: { text: "Export SVG" }
             },       
             nodeBinding: {
                 field_0: 'name'
