@@ -1,3 +1,4 @@
+
 # Transfinitte-22
 
 ### Developers
@@ -38,3 +39,35 @@ The server will be up on port 5000.
 - API Link - [https://transfinitte-api.selvakarthik.me/](https://transfinitte-api.selvakarthik.me/)
 
 *Note to the reader: The API will be down by next Sunday since costs will be incurred for the usage of GCP services*
+
+### API endpoints:
+- GET **/** - general GET request to server - returns hello world
+- POST **/** - POST request to get family tree details of a particular person
+- POST **/getAllPartFamilies** - POST request to get all family trees in constituency of person queried. 
+
+### Response Format
+A JSON data is returned from backend which represents the family tree of that specific person(for / route), or the family tree for all families in the constituency of query (for /getAllPartFamilies route).
+The JSON format is as follow:
+```
+[
+	{
+		"fid":"string",
+		"mid":"string",
+		"gender":"string",
+		"id":"string",
+		"pids":["string"],
+		"name":"string",
+	},
+	.
+	.
+	.
+]
+```
+
+here,
+	- fid: id of the father
+	- mid: id of the mother
+	- pids: id of partners
+	- gender: gender of person
+	- name: name of person
+	- id: unique tree id of person
