@@ -16,7 +16,19 @@ def generateFamilyTree():
     relation_name = request.form['relation_name']
     res = engine_of_program(name, age, state, voter_id, gender, relation_name)
     return res
+
+@app.route('/getAllPartFamilies', methods=['POST'])
+def generatePartFamilyTree():
+    name = request.form['name']
+    age = request.form['age']
+    state = request.form['state']
+    voter_id = request.form['voter_id']
+    gender = request.form['gender']
+    relation_name = request.form['relation_name']
+    res = engine_of_program(name, age, state, voter_id, gender, relation_name)
+    return res
     
 
 if __name__ == '__main__':
-    app.run()
+    engine_of_program('pradeep', 19, 'TN', 'asd', 'M', 'selvanayagam')
+    # app.run()

@@ -26,14 +26,16 @@ def get_all_people_data(sno):
     l.pop()
     all_data = []
     house_number, address = None, None
+    visited_snos = set()
     for block in l:
         data = get_block_data(block)
         if data == None:
             continue
         if data['sno'] == sno:
             house_number, address = data['house_number'], data['address']
-        if data:
+        if data and data['sno'] not in visited_snos:
             all_data.append(data)
+            visited_snos.add(data['sno'])
     return all_data, house_number, address
 
 def group_by_house_and_address(data: list[dict]) -> dict:
@@ -52,32 +54,39 @@ def get_structured_house_data(sno) -> dict:
     else:
         return None
 
-def convert_to_tree_format(data: list[dict]) -> list[dict]:
+def convert_to_tree_format(data: list[dict], starting_id: int = 0) -> list[dict]:
     people_to_id = {}
     people_details = {}
     for i in range(len(data)):
-        people_to_id[data[i]['name']] = i
-        people_details[i] = {}
-        people_details[i]['id'] = i
-        people_details[i]['name'] = data[i]['name']
-        people_details[i]['pids'] = []
-        people_details[i]['gender'] = data[i]['gender'].lower()
+        people_to_id[data[i]['name']] = i + starting_id
+        people_details[i + starting_id] = {}
+        people_details[i + starting_id]['id'] = i + starting_id
+        people_details[i + starting_id]['name'] = data[i]['name']
+        people_details[i + starting_id]['pids'] = []
+        people_details[i + starting_id]['gender'] = data[i]['gender'].lower()
     for i in range(len(data)):
         if data[i]['father_name'] and data[i]['father_name'] in people_to_id:
-            people_details[i]['fid'] = people_to_id[data[i]['father_name']]
+            people_details[i + starting_id]['fid'] = people_to_id[data[i]['father_name']]
         if data[i]['husband_name'] and data[i]['husband_name'] in people_to_id:
-            people_details[i]['pids'].append(people_to_id[data[i]['husband_name']])
-            people_details[people_to_id[data[i]['husband_name']]]['pids'].append(i)        
+            people_details[i + starting_id]['pids'].append(people_to_id[data[i]['husband_name']])
+            people_details[people_to_id[data[i]['husband_name']]]['pids'].append(i + starting_id)
     # add mid if pid of fid is present
     for i in range(len(data)):
-        if 'fid' in people_details[i]:
-            fid = people_details[i]['fid']
+        if 'fid' in people_details[i + starting_id]:
+            fid = people_details[i + starting_id]['fid']
             if 'pids' in people_details[fid] and len(people_details[fid]['pids']) == 1:
-                people_details[i]['mid'] = people_details[fid]['pids'][0]
+                people_details[i + starting_id]['mid'] = people_details[fid]['pids'][0]
     return list(people_details.values())
 
+
 if __name__ == '__main__':
-    data = get_structured_house_data('28')
-    print(data)
-    tree_data = convert_to_tree_format(data)
-    print(tree_data)
+    people_data, _, _ = get_all_people_data('0')
+    print(len(people_data))
+    ha_to_people = group_by_house_and_address(people_data)
+    starting_id = 0
+    all_people = []    
+    for ha, people in ha_to_people.items():
+        all_people.extend(convert_to_tree_format(people, starting_id))
+        starting_id += len(people)
+    import json
+    print(json.dumps(all_people))
