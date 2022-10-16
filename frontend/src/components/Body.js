@@ -74,6 +74,31 @@ const Body = () => {
     alert("Finding election records for you...");
   };
 
+  const downloadFile = ({ data, fileName, fileType }) => {
+    const blob = new Blob([data], { type: fileType });
+
+    const a = document.createElement("a");
+    a.download = fileName;
+    a.href = window.URL.createObjectURL(blob);
+    const clickEvt = new MouseEvent("click", {
+      view: window,
+      bubbles: true,
+      cancelable: true,
+    });
+    a.dispatchEvent(clickEvt);
+    a.remove();
+  };
+
+  const exportToJson = (e) => {
+    e.preventDefault();
+    console.log(famData);
+    downloadFile({
+      data: JSON.stringify(famData),
+      fileName: "answer.json",
+      fileType: "text/json",
+    });
+  };
+
   return (
     <div className='w-full'>
       <div>
@@ -165,8 +190,25 @@ const Body = () => {
           </div>
         </form>
       </div>
-
-      <Tree familyData={famData} />
+      <div className='actionBtns'>
+        <button
+          type='button'
+          className='mt-5 py-2 px-4 rounded-md bg-green-500 text-gray-50 hover:bg-green-700'
+          onClick={exportToJson}
+        >
+          Export to JSON
+        </button>
+      </div>
+      {famData && famData.length > 500 ? (
+        <>
+          <Tree familyData={famData.slice(0, 20)} />
+        </>
+      ) : (
+        <>
+          <Tree familyData={famData} />
+        </>
+      )}
+      {/* <Tree familyData={famData} /> */}
     </div>
   );
 };
