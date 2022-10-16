@@ -20,14 +20,14 @@ def get_text_from_pdf(pdf_path: str) -> str:
     client = vision.ImageAnnotatorClient()
 
     if os.name == 'nt':
-        pages = convert_from_path(pdf_path, 500, poppler_path=r"C:\Program Files (x86)\poppler-0.68.0\bin")
+        pages = convert_from_path(pdf_path, 150, poppler_path=r"C:\Program Files (x86)\poppler-0.68.0\bin")
     else:
-        pages = convert_from_path(pdf_path, 500)
+        pages = convert_from_path(pdf_path, 150)
 
     page_no=0
     j=0
     
-    console_file = open("dump.txt", "a")
+    # console_file = open("dump.txt", "a")
     for page in pages:
 
         page_no = page_no+1
@@ -57,13 +57,13 @@ def get_text_from_pdf(pdf_path: str) -> str:
 
         gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
         blurred = cv2.GaussianBlur(gray, (3, 3), 0)
-        thresh = cv2.threshold(blurred, 230,255,cv2.THRESH_BINARY_INV)[1]
+        thresh = cv2.threshold(blurred, 150,255,cv2.THRESH_BINARY_INV)[1]
 
         cnts = cv2.findContours(thresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
         cnts = cnts[0] if len(cnts) == 2 else cnts[1]
 
         image_number = 0
-        min_area = 8000
+        min_area = 3000
 
 
         for c in cnts:
@@ -74,21 +74,21 @@ def get_text_from_pdf(pdf_path: str) -> str:
 
                 img_list = []
 
-                if(h < 500):
+                if(h < 157):
 
-                    row1 = original[y:y+h, x:x+1225]
-                    row2 = original[y:y+h, x+1250:x+2475]
-                    row3 = original[y:y+h, x+2500:x+3750]
+                    row1 = original[y:y+h, x:x+379]
+                    row2 = original[y:y+h, x+380:x+756]
+                    row3 = original[y:y+h, x+757:x+1133]
                     for i in range(3):
                         img_list.append(convertArraytoBytes(array=eval('row'+str(i+1))))
 
                 else:
-                    row1 = original[y:y+500, x:x+1225]
-                    row2 = original[y:y+500, x+1250:x+2475]
-                    row3 = original[y:y+500, x+2500:x+3750]
-                    row4 = original[y+500:y+h, x:x+1225]
-                    row5 = original[y+500:y+h, x+1250:x+2475]
-                    row6 = original[y+500:y+h, x+2500:x+3750]
+                    row1 = original[y:y+157, x:x+379]
+                    row2 = original[y:y+157, x+380:x+756]
+                    row3 = original[y:y+157, x+757:x+1133]
+                    row4 = original[y+157:y+h, x:x+379]
+                    row5 = original[y+157:y+h, x+380:x+756]
+                    row6 = original[y+157:y+h, x+757:x+1133]
 
                     for i in range(6):
                         img_list.append(convertArraytoBytes(array=eval('row'+str(i+1))))
