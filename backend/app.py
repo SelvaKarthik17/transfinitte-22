@@ -1,5 +1,5 @@
 from flask import Flask, request
-from engine.engine import engine_of_program
+from engine.engine import engine_of_program, get_part_family_tree
 app = Flask(__name__)
 
 @app.route('/', methods=['GET'])
@@ -25,10 +25,9 @@ def generatePartFamilyTree():
     voter_id = request.form['voter_id']
     gender = request.form['gender']
     relation_name = request.form['relation_name']
-    res = engine_of_program(name, age, state, voter_id, gender, relation_name)
+    res = get_part_family_tree(name, age, state, voter_id, gender, relation_name)
     return res
     
 
 if __name__ == '__main__':
-    engine_of_program('pradeep', 19, 'TN', 'asd', 'M', 'selvanayagam')
-    # app.run()
+    app.run()

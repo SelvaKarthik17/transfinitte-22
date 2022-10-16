@@ -3,7 +3,7 @@
 import re
 
 def get_required_values(s: str):
-    regex = r"#?(?P<sno>^\d+)[\n\r\s]*Name:[\n\r\s]*(?P<name>[ \w$&+,:;=?@#|'<>.^*()%!-]+)[\n\r\s]*((Husband('s)? Name:[\n\r\s]*(?P<husband_name>[ \w$&+,:;=?@#|'<>.^*()%!-]+))|(Father('s)? Name:[\n\r\s]*(?P<father_name>[ \w$&+,:;=?@#|'<>.^*()%!-]+)))[\n\r\s]*House (Number|No)\.?:[\n\r\s]*(?P<house_number>[\da-zA-Z\-\/. ]+)[\n\r\s]*Age:[\n\r\s]*(?P<age>\d+)[\n\r\s]*Gender:[\n\r\s]*(?P<gender>[a-zA-Z]+)[\n\r\s]*[\w\W]+address:[\n\r\s]*(?P<address>[\w\W]+)[\n\r\s]*"
+    regex = r"^#?(?P<sno>\d+)+[\n\r\s]*([\w]+)?[\n\r\s]*Name ?:[\n\r\s]*(?P<name>[ \w$&+,:;=?@#|'<>.^*()%!-]+)[\n\r\s]*((Husband('s)? Name:[\n\r\s]*(?P<husband_name>[ \w$&+,:;=?@#|'<>.^*()%!-]+))|(Father('s)? Name ?:[\n\r\s]*(?P<father_name>[ \w$&+,:;=?@#|'<>.^*()%!-]+)))[\n\r\s]*House (Number|No)\.?:[\n\r\s]*(?P<house_number>[\da-zA-Z\-\/. ]+)[\n\r\s]*Age:[\n\r\s]*(?P<age>\d+)[\n\r\s]*(Gender)?[\n\r\s]*Gender ?:[\n\r\s]*(?P<gender>[a-zA-Z]+)[\n\r\s]*[\w\W]+address ?:[\n\r\s]*(?P<address>[\w\W]+)[\n\r\s]*"
     matches = re.finditer(regex, s, re.MULTILINE | re.IGNORECASE)
     matches = list(matches)
     for match in matches:
@@ -80,13 +80,9 @@ def convert_to_tree_format(data: list[dict], starting_id: int = 0) -> list[dict]
 
 
 if __name__ == '__main__':
-    people_data, _, _ = get_all_people_data('0')
-    print(len(people_data))
-    ha_to_people = group_by_house_and_address(people_data)
-    starting_id = 0
-    all_people = []    
-    for ha, people in ha_to_people.items():
-        all_people.extend(convert_to_tree_format(people, starting_id))
-        starting_id += len(people)
-    import json
-    print(json.dumps(all_people))
+    sno = input('Enter S.No: ')
+    data = get_structured_house_data(sno)
+    if data:
+        print(convert_to_tree_format(data))
+    else:
+        print('No data found')
