@@ -38,7 +38,11 @@ The server will be up on port 5000.
 - Website Link - [Family Ties](https://family-ties.selvakarthik.me/)
 - API Link - [https://transfinitte-api.selvakarthik.me/](https://transfinitte-api.selvakarthik.me/)
 
-*Note to the reader: The API will be down by next Sunday since costs will be incurred for the usage of GCP services*
+- *Note to the reader: The API will be down by next Sunday since costs will be incurred for the usage of GCP services*
+- *New calls to the API take about 7-8 mins. If you're looking to get faster responses try out one of the requests in the postman link. Those constituencies are cached in the system*
+
+- Postman Link - [Postman Workspace](https://web.postman.co/haribaz/workspace/my-workspace/request/17759945-b5e48199-1410-4a93-a0a1-c8ec6526c9d7)
+
 
 ### API endpoints:
 - GET **/** - general GET request to server - returns hello world
