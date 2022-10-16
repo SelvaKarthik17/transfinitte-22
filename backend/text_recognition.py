@@ -45,7 +45,7 @@ def get_text_from_pdf(pdf_path: str) -> str:
 
         # image = cv2.imread('page'+str(i)+'.jpg')
         original = image.copy()
-        headerImage = original[160:300,0:3000]
+        headerImage = original[50:80,0:900]
         # save headerImage
         headerImageBytes = convertArraytoBytes(headerImage)
         headerRequestImage = vision.Image(content=headerImageBytes)
