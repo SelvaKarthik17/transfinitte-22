@@ -1,5 +1,5 @@
 from flask import Flask, request
-from engine.engine import engine_of_program
+from engine.engine import engine_of_program, get_part_family_tree
 app = Flask(__name__)
 
 @app.route('/', methods=['GET'])
@@ -15,6 +15,17 @@ def generateFamilyTree():
     gender = request.form['gender']
     relation_name = request.form['relation_name']
     res = engine_of_program(name, age, state, voter_id, gender, relation_name)
+    return res
+
+@app.route('/getAllPartFamilies', methods=['POST'])
+def generatePartFamilyTree():
+    name = request.form['name']
+    age = request.form['age']
+    state = request.form['state']
+    voter_id = request.form['voter_id']
+    gender = request.form['gender']
+    relation_name = request.form['relation_name']
+    res = get_part_family_tree(name, age, state, voter_id, gender, relation_name)
     return res
     
 
