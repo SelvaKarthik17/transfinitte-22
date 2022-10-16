@@ -65,9 +65,9 @@ The JSON format is as follow:
 ```
 
 here,
-	- fid: id of the father
-	- mid: id of the mother
-	- pids: id of partners
-	- gender: gender of person
-	- name: name of person
-	- id: unique tree id of person
+- fid: id of the father
+- mid: id of the mother
+- pids: id of partners
+- gender: gender of person
+- name: name of person
+- id: unique tree id of person
