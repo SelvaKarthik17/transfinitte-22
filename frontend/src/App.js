@@ -3,6 +3,7 @@ import { Route, Routes } from "react-router-dom";
 import Home from "./pages/Home";
 import About from "./pages/About";
 import Tree from "./pages/Tree";
+import BuildTree from "./pages/BuildTree";
 import GetFamily from "./pages/GetFamily";
 
 function App() {
@@ -12,7 +13,7 @@ function App() {
         <Route path='/' element={<Home />} />
         <Route path='/about' element={<About />} />
         <Route path='/getfamily' element={<GetFamily/>} />
-        <Route path='/tree' element={<Tree />} />
+        <Route path='/tree' element={<BuildTree />} />
       </Routes>
     </div>
   );

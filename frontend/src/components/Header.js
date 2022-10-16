@@ -10,6 +10,9 @@ const Header = () => {
         <div className='navs'>
           <ul className='flex flex-row items-center'>
             <li className='ml-3'>
+              <Link to='/tree'><p className="text-xl">Tree Builder</p></Link>
+            </li>
+            <li className='ml-3'>
               <Link to='/about'><p className="text-xl">About Us</p></Link>
             </li>
           </ul>
