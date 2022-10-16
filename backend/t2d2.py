@@ -31,9 +31,9 @@ def get_all_people_data(sno, english_path: str):
         data = get_block_data(block)
         if data == None:
             continue
-        if data['sno'] == sno:
-            house_number, address = data['house_number'], data['address']
         if data and data['sno'] not in visited_snos:
+            if data['sno'] == sno:
+                house_number, address = data['house_number'], data['address']
             all_data.append(data)
             visited_snos.add(data['sno'])
     return all_data, house_number, address
