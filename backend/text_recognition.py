@@ -120,7 +120,7 @@ def get_text_from_pdf(pdf_path: str) -> str:
                     out_file.close()
 
                 j = j+1
-    console_file.close()
+    # console_file.close()
 if __name__ == "__main__":
     import os
     os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = r'key.json'
