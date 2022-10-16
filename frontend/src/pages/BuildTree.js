@@ -4,9 +4,8 @@ import Header from "../components/Header";
 import FamilyTree from "../components/Mytree";
 import data from "../FinalFamilyData.json";
 
-export default function BuildTree(props){
-
-    /*const [familyData, setFamilyData] = React.useState([]);
+export default function BuildTree(props) {
+  /*const [familyData, setFamilyData] = React.useState([]);
     const temp = [{"gender":"female","id":0,"name":"Lalita","pids":[3]},{"fid":3,"gender":"male","id":1,"mid":0,"name":"Akshay","pids":[]},{"fid":3,"gender":"male","id":2,"mid":0,"name":"Ashwath Niranja","pids":[]},{"gender":"male","id":3,"name":"Anantharaman","pids":[0]}]
     const [files, setFiles] = useState(null);
     const [load, setLoad] = useState(false);
@@ -52,7 +51,7 @@ export default function BuildTree(props){
       
     );*/
 
-    const [jsonData, setData] = useState(data);
+  const [jsonData, setData] = useState(data);
   // Fetch Function
   // useEffect(() => {
   //   fetch("./all.json")
@@ -71,13 +70,12 @@ export default function BuildTree(props){
   // console.log(data.slice(0, 25));
   return (
     <>
-        <Header />
-        <div className=' w-1/2 border border-1 my-4 mx-auto'>
-      <FamilyTree nodes={jsonData} />
-    </div>
+      <Header />
+      <div className=' w-1/2 border border-1 my-4 mx-auto'>
+        <FamilyTree nodes={jsonData.slice(0, 10)} />
+      </div>
 
-    <Footer />
+      <Footer />
     </>
-    
   );
 }
