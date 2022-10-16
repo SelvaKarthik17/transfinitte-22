@@ -18,8 +18,6 @@ def generateFamilyTree():
     gender = request.form['gender']
     relation_name = request.form['relation_name']
     res = engine_of_program(name, age, state, voter_id, gender, relation_name)
-
-    res.headers.add('Access-Control-Allow-Origin', '*')
     return res
 
 @app.route('/getAllPartFamilies', methods=['POST'])
@@ -31,8 +29,6 @@ def generatePartFamilyTree():
     gender = request.form['gender']
     relation_name = request.form['relation_name']
     res = get_part_family_tree(name, age, state, voter_id, gender, relation_name)
-
-    res.headers.add('Access-Control-Allow-Origin', '*')
     return res
     
 
