@@ -153,7 +153,7 @@ const Body = () => {
           <div>
             <input
               type='submit'
-              value='Submfeit'
+              value='Submit'
               className='py-3 px-4 rounded-md m-2 bg-blue-500 text-gray-50 hover:bg-blue-700'
             />
             <input
