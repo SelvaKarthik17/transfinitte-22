@@ -20,6 +20,7 @@ entrypoints==0.4
 executing==1.1.1
 fastjsonschema==2.16.2
 Flask==2.2.2
+Flask-Cors==3.0.10
 google-api-core==2.10.2
 google-auth==2.12.0
 google-cloud-core==2.3.2
@@ -80,6 +81,7 @@ pyasn1-modules==0.2.8
 pycodestyle==2.9.1
 pycparser==2.21
 Pygments==2.13.0
+PyMuPDF==1.20.2
 pyparsing==3.0.9
 PyPDF2==2.11.1
 pyrsistent==0.18.1
@@ -105,4 +107,3 @@ wcwidth==0.2.5
 webencodings==0.5.1
 websocket-client==1.4.1
 Werkzeug==2.2.2
-flask-cors==3.0.10

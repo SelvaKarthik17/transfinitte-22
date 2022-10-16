@@ -55,6 +55,8 @@ def get_structured_house_data(sno, english_path: str) -> dict:
         return None
 
 def convert_to_tree_format(data: list[dict], starting_id: int = 0) -> list[dict]:
+    if data == None:
+        return []
     people_to_id = {}
     people_details = {}
     for i in range(len(data)):
@@ -78,6 +80,19 @@ def convert_to_tree_format(data: list[dict], starting_id: int = 0) -> list[dict]
                 people_details[i + starting_id]['mid'] = people_details[fid]['pids'][0]
     return list(people_details.values())
 
+def get_house_and_address_of_sno(sno, people_data):
+    for person in people_data:
+        if person['sno'] == sno:
+            return person['house_number'], person['address']
+    return None, None
+
+def get_structured_house_data_with_people_data(people_data, sno) -> list[dict]:
+    house_number, address = get_house_and_address_of_sno(sno, people_data)
+    if house_number and address:
+        ha_to_people = group_by_house_and_address(people_data)
+        return ha_to_people[(house_number, address)]
+    else:
+        return None
 
 if __name__ == '__main__':
     sno = input('Enter S.No: ')

@@ -1,10 +1,12 @@
 import requests
-
+import hashlib
 import os
 
 def create_temp_folder():
     if not os.path.exists("temp"):
         os.makedirs("temp")
+    if not os.path.exists("cached_people"):
+        os.makedirs("cached_people")
     
 def get_electoral_roll_pdf_url(data):
     base_url = "https://www.elections.tn.gov.in/SSR2022_MR_05012022"
@@ -17,3 +19,7 @@ def get_electoral_roll_pdf_url(data):
 def get_pdf_from_url(url):
     response = requests.get(url)
     return response.content
+
+def get_pickle_path(url: str):
+    h = hashlib.sha1(url.encode()).hexdigest()
+    return f'cached_people/{h}_people.pkl'

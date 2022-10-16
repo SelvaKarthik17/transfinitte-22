@@ -8,3 +8,5 @@ frontend/node_modules/*
 frontend/node_modules/*
 backend/engine/__pycache__/*
 dump.txt
+cached_people/
+
