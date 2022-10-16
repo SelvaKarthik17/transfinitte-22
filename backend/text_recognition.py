@@ -51,12 +51,10 @@ def get_text_from_pdf(pdf_path: str, locale_path: str) -> str:
         headerRequestImage = vision.Image(content=headerImageBytes)
         headerImageResponse = client.text_detection(image=headerRequestImage)
         #split after :
-        if(headerImageResponse.text_annotations[0].description != None):
+        if(headerImageResponse.text_annotations.__len__() > 0):
             headerText = headerImageResponse.text_annotations[0].description.split(":")[1]
             headerText = headerText.lstrip()
             
-
-
         gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
         blurred = cv2.GaussianBlur(gray, (3, 3), 0)
         thresh = cv2.threshold(blurred, 150,255,cv2.THRESH_BINARY_INV)[1]
