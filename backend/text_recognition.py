@@ -12,7 +12,7 @@ def convertArraytoBytes(array):
     success, encoded_image = cv2.imencode('.png', array)
     return encoded_image.tobytes()
 
-def get_text_from_pdf(pdf_path: str) -> str:
+def get_text_from_pdf(pdf_path: str, locale_path: str) -> str:
     doc = open(pdf_path, 'rb')
     readpdf = PyPDF2.PdfFileReader(doc)
     totalpages = readpdf.numPages
@@ -111,7 +111,7 @@ def get_text_from_pdf(pdf_path: str) -> str:
                             ignore_index=True
                         )
 
-                    out_file = open("temp/locale-out.txt", "a")
+                    out_file = open(locale_path, "a")
                     try:
                         out_file.write(df['description'][0])
                         out_file.write("\n------------\n")
@@ -122,6 +122,4 @@ def get_text_from_pdf(pdf_path: str) -> str:
                 j = j+1
     # console_file.close()
 if __name__ == "__main__":
-    import os
-    os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = r'key.json'
-    get_text_from_pdf("temp/test.pdf")
+    pass

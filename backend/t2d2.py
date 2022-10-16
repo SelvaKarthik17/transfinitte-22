@@ -19,8 +19,8 @@ def get_block_data(block: str):
     return get_required_values(block)
 
 
-def get_all_people_data(sno):
-    with open('temp/english-out.txt', encoding="utf8") as f:
+def get_all_people_data(sno, english_path: str):
+    with open(english_path, encoding="utf8") as f:
         content = f.read()
     l = content.split('------------')
     l.pop()
@@ -46,8 +46,8 @@ def group_by_house_and_address(data: list[dict]) -> dict:
         ha_to_people[(person['house_number'], person['address'])].append(person)
     return ha_to_people
 
-def get_structured_house_data(sno) -> dict:
-    people_data, house_number, address = get_all_people_data(sno)
+def get_structured_house_data(sno, english_path: str) -> dict:
+    people_data, house_number, address = get_all_people_data(sno, english_path)
     if house_number and address:
         ha_to_people = group_by_house_and_address(people_data)
         return ha_to_people[(house_number, address)]

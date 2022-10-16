@@ -2,7 +2,7 @@ from google.cloud import translate
 import os
 
 
-def translate_text(text, project_id="favorable-order-365522"):
+def translate_text(english_path: str, text, project_id="favorable-order-365522"):
     os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = r'key-translate.json'
     # print(len(text))
     client = translate.TranslationServiceClient()
@@ -21,7 +21,7 @@ def translate_text(text, project_id="favorable-order-365522"):
 
     for translation in response.translations:
 
-        f = open("temp/english-out.txt", "a")
+        f = open(english_path, "a")
 
         lines = translation.translated_text.split("\n")
 
@@ -33,10 +33,10 @@ def translate_text(text, project_id="favorable-order-365522"):
         f.write(string_without_empty_lines)
         f.close()
 
-def translate_locale_out():
+def translate_locale_out(locale_path :str, english_path: str):
     tamil_text = ""
 
-    with open('temp/locale-out.txt', 'r') as file:
+    with open(locale_path, 'r') as file:
 
         line = file.readline()
         cnt = 1
@@ -50,9 +50,9 @@ def translate_locale_out():
 
     while l > 0:
         if l > 30000:
-            translate_text(tamil_text[:30000])
+            translate_text(english_path, tamil_text[:30000])
             tamil_text = tamil_text[30000:]
             l = len(tamil_text)
         else:
-            translate_text(tamil_text)
+            translate_text(english_path, tamil_text)
             l = 0
