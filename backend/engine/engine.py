@@ -26,6 +26,10 @@ def engine_of_program(name, age, state, voter_id, gender, relation_name):
     english_path = f'temp/{rand}-english-out.txt'
 
     data = get_ind_gov_details(user_data, captcha_path)
+
+    if data == None:
+        return "Details not found",400
+
     pdf_url = get_electoral_roll_pdf_url(data)
     print(pdf_url)
     print(hash(pdf_url))
@@ -75,6 +79,10 @@ def get_part_family_tree(name, age, state, voter_id, gender, relation_name):
     english_path = f'temp/{rand}-english-out.txt'
 
     data = get_ind_gov_details(user_data, captcha_path)
+
+    if data == None:
+        return "Details not found",400
+
     pdf_url = get_electoral_roll_pdf_url(data)
     pickle_path = get_pickle_path(pdf_url)
 

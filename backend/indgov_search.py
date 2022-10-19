@@ -3,7 +3,7 @@ from captcha_solver import solve_captcha
 import requests
 
 def get_ind_gov_details(user_data, captcha_path):
-	tries = 10
+	tries = 50
 
 	while tries > 0:
 		cookies = {
@@ -95,7 +95,7 @@ def get_ind_gov_details(user_data, captcha_path):
 		if response.text == 'Wrong Captcha':
 			tries -= 1
 			print('Wrong Captcha')
-			print('failed attempts: ', 10 - tries)
+			print('failed attempts: ', 50 - tries)
 		else:
 			print('Success')
 			break
@@ -105,6 +105,6 @@ def get_ind_gov_details(user_data, captcha_path):
 	docs = response.json()["response"]["docs"]
 	if len(docs) == 0:
 		print("No results found")
-		exit(0)
+		return None
 
 	return docs[0]

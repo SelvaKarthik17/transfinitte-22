@@ -3,7 +3,7 @@ from engine.engine import engine_of_program, get_part_family_tree
 from flask_cors import CORS
 
 app = Flask(__name__)
-CORS(app)
+CORS(app, resources={r"/*": {"origins": "*"}})
 
 @app.route('/', methods=['GET'])
 def hello():
