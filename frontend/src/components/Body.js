@@ -34,6 +34,10 @@ const Body = () => {
       })
       .catch((err) => {
         console.log(err);
+        alert(err.status);
+        if (err.response.status === 400) {
+          alert(err.response.data);
+        }
       });
 
     alert("Finding election records for you...");
@@ -69,6 +73,9 @@ const Body = () => {
       })
       .catch((err) => {
         console.log(err);
+        if (err.response.status === 400) {
+          alert(err.response.data);
+        }
       });
 
     alert("Finding election records for you...");
